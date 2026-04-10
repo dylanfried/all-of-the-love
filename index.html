@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, Bob</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --linen: #f5f0e8;
+    --linen-dark: #ede6d8;
+    --rose: #c4857a;
+    --rose-light: #e8c4be;
+    --rose-pale: #f2e0dc;
+    --sage: #7a9c88;
+    --sage-light: #c2d4c9;
+    --sage-pale: #e4ede8;
+    --ink: #2d2926;
+    --ink-mid: #6b6259;
+    --ink-light: #a09389;
+    --cream: #fdfaf5;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--linen); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem; background: var(--cream); border-bottom: 1px solid var(--rose-light); position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at 30% 20%, rgba(196,133,122,0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(122,156,136,0.05) 0%, transparent 50%); pointer-events: none; }
+  .hero-eyebrow { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rose); margin-bottom: 2rem; position: relative; }
+  .hero h1 { font-size: clamp(3rem, 9vw, 7rem); font-weight: 400; color: var(--ink); line-height: 1.05; margin-bottom: 1.5rem; letter-spacing: -0.02em; position: relative; }
+  .hero h1 em { font-style: italic; color: var(--rose); }
+  .hero-sub { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 1rem; color: var(--ink-mid); max-width: 440px; line-height: 1.6; position: relative; }
+  .hero-divider { width: 48px; height: 1px; background: var(--rose-light); margin: 2rem auto; }
+  .scroll-hint { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-light); }
+  .scroll-line { width: 1px; height: 40px; background: var(--rose-light); animation: scrollLine 2s ease-in-out infinite; }
+  @keyframes scrollLine { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  /* TABLE OF CONTENTS */
+  .toc { max-width: 760px; margin: 0 auto; padding: 3rem 2rem 1rem; text-align: center; }
+  .toc h2 { font-size: 1.1rem; font-weight: 400; color: var(--ink-mid); margin-bottom: 1.5rem; font-style: italic; }
+  .toc-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1rem; }
+  .toc-link { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose); text-decoration: none; padding: 0.3rem 0.6rem; border: 1px solid var(--rose-pale); border-radius: 2px; transition: all 0.2s ease; white-space: nowrap; }
+  .toc-link:hover { background: var(--rose-pale); color: var(--ink); }
+
+  /* TIMELINE */
+  .timeline { max-width: 760px; margin: 0 auto; padding: 3rem 2rem 5rem; position: relative; }
+  .timeline::before { content:''; position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--rose-light); transform:translateX(-50%); }
+
+  /* CLUSTER */
+  .cluster { margin-bottom: 5.5rem; scroll-margin-top: 2rem; }
+
+  /* ENTRY */
+  .entry { position: relative; margin-bottom: 1.5rem; opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .entry.visible { opacity: 1; transform: translateY(0); }
+  .entry-dot { position: absolute; left: 50%; top: 0; transform: translate(-50%, 8px); width: 10px; height: 10px; border-radius: 50%; background: var(--cream); border: 1.5px solid var(--rose); z-index: 1; }
+  .entry-dot.sage { border-color: var(--sage); }
+  .entry-dot.hide { display: none; }
+
+  /* NOTE */
+  .cluster-odd .entry-note .entry-body  { margin-left: 0; margin-right: calc(50% + 2rem); text-align: right; }
+  .cluster-even .entry-note .entry-body { margin-left: calc(50% + 2rem); margin-right: 0; text-align: left; }
+  .entry-body { padding: 1.5rem 1.75rem; background: var(--cream); border: 1px solid var(--rose-pale); border-radius: 2px; }
+  .entry-from { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.65rem; }
+  .entry-text { font-size: 0.97rem; color: var(--ink); line-height: 1.8; }
+  .entry-text + .entry-text { margin-top: 0.85rem; }
+
+  /* POEM */
+  .entry-poem .entry-body { background: var(--sage-pale); border-color: var(--sage-light); }
+  .cluster-odd .entry-poem .entry-body  { margin-left: 0; margin-right: calc(50% + 2rem); text-align: left; }
+  .cluster-even .entry-poem .entry-body { margin-left: calc(50% + 2rem); margin-right: 0; text-align: left; }
+  .entry-poem .entry-from { color: var(--sage); }
+  .entry-poem .poem-lines { font-style: italic; white-space: pre-line; font-size: 0.97rem; line-height: 1.9; color: var(--ink); }
+  .entry-poem .poem-intro { font-size: 0.95rem; color: var(--ink-mid); margin-bottom: 1rem; font-style: normal; }
+  .entry-poem .poem-outro { font-size: 0.95rem; color: var(--ink-mid); margin-top: 1rem; font-style: normal; }
+
+  /* PHOTO */
+  .cluster-odd .entry-photo .entry-body  { margin-left: 0; margin-right: calc(50% + 2rem); padding: 0; background: none; border: none; }
+  .cluster-even .entry-photo .entry-body { margin-left: calc(50% + 2rem); margin-right: 0; padding: 0; background: none; border: none; }
+  .entry-photo img { width: 100%; display: block; border-radius: 2px; border: 1px solid var(--linen-dark); }
+  .photo-caption { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.72rem; color: var(--ink-light); margin-top: 0.4rem; letter-spacing: 0.04em; }
+
+  /* PHOTO PAIR */
+  .entry-photo-pair .entry-body { margin: 0 !important; padding: 0; background: none; border: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .entry-photo-pair img { width: 100%; display: block; border-radius: 2px; border: 1px solid var(--linen-dark); aspect-ratio: 1; object-fit: cover; }
+  .entry-photo-pair .entry-dot { display: none; }
+
+  /* PHOTO GRID (for contributors with many photos) */
+  .entry-photo-grid .entry-body { margin: 0 !important; padding: 0; background: none; border: none; }
+  .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 2px; border: 1px solid var(--linen-dark); cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .photo-grid img:hover { transform: scale(1.03); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+
+  /* VIDEO */
+  .cluster-odd .entry-video .entry-body  { margin-left: 0; margin-right: calc(50% + 2rem); padding: 0; background: none; border: none; }
+  .cluster-even .entry-video .entry-body { margin-left: calc(50% + 2rem); margin-right: 0; padding: 0; background: none; border: none; }
+  .video-label { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.65rem; }
+  .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 2px; overflow: hidden; border: 1px solid var(--linen-dark); background: var(--ink); }
+  .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+  .video-caption { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.72rem; color: var(--ink-light); margin-top: 0.4rem; font-style: italic; }
+
+  /* AUDIO */
+  .cluster-odd .entry-audio .entry-body  { margin-left: 0; margin-right: calc(50% + 2rem); background: var(--sage-pale); border-color: var(--sage-light); }
+  .cluster-even .entry-audio .entry-body { margin-left: calc(50% + 2rem); margin-right: 0; background: var(--sage-pale); border-color: var(--sage-light); }
+  .entry-audio .entry-from { color: var(--sage); }
+  audio { width: 100%; height: 32px; margin-top: 0.4rem; accent-color: var(--sage); }
+
+  /* LIGHTBOX */
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 1000; align-items: center; justify-content: center; cursor: zoom-out; }
+  .lightbox.active { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 4px; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+  .lightbox-close { position: absolute; top: 1.5rem; right: 2rem; color: white; font-size: 2rem; cursor: pointer; font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 300; opacity: 0.7; transition: opacity 0.2s; }
+  .lightbox-close:hover { opacity: 1; }
+
+  /* CLOSING */
+  .closing { text-align: center; padding: 3rem 0 2rem; position: relative; z-index: 1; }
+  .closing blockquote { font-size: 1.05rem; font-style: italic; color: var(--ink-mid); max-width: 500px; margin: 0 auto; line-height: 1.85; }
+  .closing cite { display: block; margin-top: 1rem; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); font-style: normal; }
+
+  footer { text-align: center; padding: 4rem 2rem 5rem; border-top: 1px solid var(--rose-light); background: var(--cream); }
+  footer p { font-size: 1.1rem; color: var(--ink-mid); font-style: italic; }
+  footer .footer-small { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); margin-top: 1.5rem; }
+
+  @media (max-width: 600px) {
+    .timeline::before { left: 20px; }
+    .entry-dot { left: 20px; }
+    .cluster-odd .entry-note .entry-body,
+    .cluster-even .entry-note .entry-body,
+    .cluster-odd .entry-poem .entry-body,
+    .cluster-even .entry-poem .entry-body,
+    .cluster-odd .entry-photo .entry-body,
+    .cluster-even .entry-photo .entry-body,
+    .cluster-odd .entry-video .entry-body,
+    .cluster-even .entry-video .entry-body,
+    .cluster-odd .entry-audio .entry-body,
+    .cluster-even .entry-audio .entry-body { margin-left: 48px !important; margin-right: 0 !important; text-align: left !important; }
+    .entry-photo-pair .entry-body { grid-template-columns: 1fr; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <p class="hero-eyebrow">A birthday celebration</p>
+  <h1>Happy<br>Birthday,<br><em>Bob.</em></h1>
+  <div class="hero-divider"></div>
+  <p class="hero-sub">Seventy years of curiosity, kindness, and that unmistakable laugh. Collected with love from everyone lucky enough to know you.</p>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="toc">
+  <h2>With love from...</h2>
+  <div class="toc-links">
+      <a href="#bambi-and-greg" class="toc-link">Bambi and Greg</a>
+      <a href="#kim-wicklund" class="toc-link">Kim Wicklund</a>
+      <a href="#micah" class="toc-link">Micah</a>
+      <a href="#katharine" class="toc-link">Katharine</a>
+      <a href="#jim-and-kim" class="toc-link">Jim and Kim</a>
+      <a href="#sherrie" class="toc-link">Sherrie</a>
+      <a href="#hap-and-sandy" class="toc-link">Hap and Sandy</a>
+      <a href="#dennis-pocekay" class="toc-link">Dennis Pocekay</a>
+      <a href="#dave-and-caroline" class="toc-link">Dave and Caroline</a>
+      <a href="#tina-matt-maddie-and-sam" class="toc-link">Tina, Matt, Maddie and Sam</a>
+      <a href="#joe-magee" class="toc-link">Joe Magee</a>
+      <a href="#mark-yvette-and-isaiah-chass" class="toc-link">Mark, Yvette, and Isaiah Chass</a>
+      <a href="#glenn-minervini-zick" class="toc-link">Glenn Minervini-Zick</a>
+      <a href="#andy-and-betsy" class="toc-link">Andy and Betsy</a>
+      <a href="#dave-bannister" class="toc-link">Dave Bannister</a>
+      <a href="#bert" class="toc-link">Bert</a>
+      <a href="#jim" class="toc-link">Jim</a>
+      <a href="#wendy-and-michael" class="toc-link">Wendy and Michael</a>
+      <a href="#paul" class="toc-link">Paul</a>
+      <a href="#judy" class="toc-link">Judy</a>
+      <a href="#the-hubers" class="toc-link">The Hubers</a>
+      <a href="#joe-and-kathy" class="toc-link">Joe and Kathy</a>
+      <a href="#sarah" class="toc-link">Sarah</a>
+      <a href="#dan-and-china" class="toc-link">Dan and China</a>
+      <a href="#josh" class="toc-link">Josh</a>
+      <a href="#jerry" class="toc-link">Jerry</a>
+      <a href="#alan" class="toc-link">Alan</a>
+      <a href="#sheila-and-scott" class="toc-link">Sheila and Scott</a>
+      <a href="#peggy-and-jane" class="toc-link">Peggy and Jane</a>
+      <a href="#bob-and-helene" class="toc-link">Bob and Helene</a>
+  </div>
+</div>
+
+<div class="timeline">
+
+  <!-- Bambi and Greg -->
+  <div class="cluster cluster-odd" id="bambi-and-greg">
+    <div class="entry entry-poem">
+      <div class="entry-dot sage"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Bambi and Greg</div>
+        <p class="poem-intro">Inspired by sharing with Bobby various practical and impractical social/business schemes over the years and his infectious enthusiasm for entrepreneurialism and admiration for entrepreneurs (always just about to invest in a grand scheme). And of course the fact that he&#x27;s the most humble polymath you&#x27;ll ever meet.</p>
+        <p class="poem-lines">WE AND THE BOBBY FRIED
+to the tune of Janice Joplin &quot;Me and Bobby McGee&quot;
+
+We made our way to Sebastopol and found that High School Road
+Lookin for the plastic horse and then turn left
+Bobby rolled a joint, just before it rained
+And that rode us all the way to fresh Ideas
+
+I pulled my business plan out of my dirty red bandana
+I&#x27;s talk&#x27;en fast while Bambi sang the blues
+
+Is Bobby the humblest polymath that you ever knew?
+Star athlete, musician, sculptor and a doctor, too?
+Wrote this ridiculous song as an ode to you.
+
+Despite all his talents
+He&#x27;s kind and generous, too
+what else rhymes that I can say about you?
+You&#x27;re a good man Bobby Freid, we know its true
+
+Freedom is just another word for no schemes to pursue
+Nothin&#x27;, don&#x27;t mean nothin&#x27; hon&#x27; if it ain&#x27;t free, no-no
+And feelin&#x27; good was easy, Lord, when Bobby really schmoozed
+You know feelin&#x27; good was good enough for me
+Good enough for me and and my friend Bobby Fried
+</p>
+        <p class="poem-outro">Written (adapted) by Gregory Gavin &amp; Bambi Menes
+Performed by Bambi Menes
+See accompanying audio file</p>
+      </div>
+    </div>
+    <div class="entry entry-audio">
+      <div class="entry-dot sage"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Bambi and Greg</div>
+        <p class="photo-caption" style="margin-bottom:0.5rem;">WE AND THE BOBBY FRIED - original song by Bambi and Greg</p>
+        <audio controls preload="metadata" src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/bambi-and-greg/we-and-the-bobby-fried.m4a"></audio>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kim Wicklund -->
+  <div class="cluster cluster-even" id="kim-wicklund">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Kim Wicklund</div>
+        <p class="entry-text">Happy 70th birthday, Bob! It is a perfect Pacific Northwest morning. Cool, fresh air being warmed by the rising sun. Blue skies dotted with an occasional wispy cloud. Birds twittering. The magnificent magnolia tossing a random petal at me and Vesper, who is by my side. It&#x27;s a fitting morning to be reflecting on YOU and the many perfect mornings we&#x27;ve shared in various places on the planet: a private lookout over Mulley Canyon, a very sandy bend on the Green River, an oasis in the Moroccan desert, an Icelandic picnic table frequented by frolicking foxes, a mountain top in the Dolomites that is truly &quot;a loooong way&quot; from whatever we wanted it to be far from, and in your restful backyard where you have brought me many lattes to start the day. We have shared so many fabulous adventures together. Those times were enriched because they were infused with your essence: your kindness and incredibly generous spirit, your curiosity about everything and vast range of knowledge, your sense of adventure and desire to be untethered, your unique ability to be completely present and focused on whoever it is you are with, your creativity and productivity, your balance of seriousness with utter wackiness, your love of music and desire to bring it with you wherever you go. You live life with arms wide open, always ready to embrace it. On a personal level, you have an especially beautiful way of making me feel heard and validated – you are such a good listener! Throughout your 70 trips around the sun, I can only imagine how many people you&#x27;ve helped feel heard, made laugh, encouraged to sing, helped with a project, inspired to embrace all that life offers. You are a special one, Bob, and I thank the Universe for bringing such a beautiful soul into my life. May you feel loved and adored as you move into this next year of your wonderful life.</p>
+        <p class="entry-text">Love you tons,<br>
+Kim</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Micah -->
+  <div class="cluster cluster-odd" id="micah">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Micah</div>
+        <p class="entry-text">Dear Bob: Happy 70th birthday!!! From Kate Wolf to your back yard, I&#x27;ve been lucky to be welcomed into your home and your life more than I could have hoped for. I admire the relationships that you build with such openness, curiosity, and good cheer; I admire the building, welding, strumming, and rafting that you tackle with such aplomb, unafraid to get messy and learn, outstanding for someone who knows so much; I admire the humble humor that belies the quiet brilliance and tenacity with which you approach the things in life that really matter to you; I admire how you&#x27;ve put it all together into a life lived genuinely, with hope, with meaning, with contemplation - and yet without taking yourself too seriously.</p>
+        <p class="entry-text">You&#x27;re beloved by so many friends of your family - somehow at once both a fatherly figure and just another one of us kids. On both counts, I feel very lucky that our paths crossed and to have seen a bit of these last few decades unfold in conversations around the giant table in your back yard. I can&#x27;t wait to see what the chapters ahead will hold — and to hit the trails in just a few months! Cheers to Bob past, present, and future, with love, -Micah</p>
+      </div>
+    </div>
+    <div class="entry entry-photo-pair">
+      <div class="entry-dot hide"></div>
+      <div class="entry-body">
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/micah/embedded-photo-1.jpg" alt="Photo from Micah" loading="lazy"></div>
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/micah/embedded-photo-2.jpg" alt="Photo from Micah" loading="lazy"></div>
+      </div>
+    </div>
+    <div class="entry entry-photo-pair">
+      <div class="entry-dot hide"></div>
+      <div class="entry-body">
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/micah/embedded-photo-3.jpg" alt="Photo from Micah" loading="lazy"></div>
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/micah/embedded-photo-4.jpg" alt="Photo from Micah" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Katharine -->
+  <div class="cluster cluster-even" id="katharine">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Katharine</div>
+        <p class="entry-text">Bob - I still see the ten year old boy myself. You endeared me with your playfulness, curiosity, kindness, and humor from the first time we met. I remember the openness with which you and Pam shared about your work on your relationship when we met during COVID in Sebastapol — your vulnerability about something I too was struggling with at the moment (how to be with another person all the time???) made me really feel like everything was okay, or could be okay if I let it. And I did. And I&#x27;m very happy with my life now.</p>
+        <p class="entry-text">You are such a humanist, and I admire your grace with people (including me). I wish you a very happy 70th and many, many more. I&#x27;m so very grateful you&#x27;re my family.</p>
+        <p class="entry-text">all my love,<br>
+Katharine</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jim and Kim -->
+  <div class="cluster cluster-odd" id="jim-and-kim">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Jim and Kim</div>
+        <p class="entry-text">I had a lot of fun going through the digital images of times I&#x27;ve shared with your dad (and a few of your mom too I had to include) – but they only go back to 2006. The others are trapped in celluloid and I haven&#x27;t yet been retired enough to go through those and digitize.</p>
+        <p class="entry-text">There are a lot – and I have not fixed them all up in Lightroom to make them pretty. If there are some that you like, let me know and I could do that. And I could give you more info – like where they were taken. They are in approximate chronological order – Bob and I have aged!</p>
+        <p class="entry-text">Jorge did go back further in time recovering his old photos, so hope he was able to send you some from that ancient time before 2006.</p>
+      </div>
+    </div>
+    <div class="entry entry-photo-grid">
+      <div class="entry-dot hide"></div>
+      <div class="entry-body">
+        <div class="photo-grid">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-01.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-02.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-03.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-04.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-05.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-06.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-07.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-08.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-09.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-10.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-11.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-12.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-13.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-14.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-15.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-16.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-17.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-18.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-19.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-20.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-21.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-22.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-23.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-24.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-25.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-26.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-27.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-28.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-29.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-30.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-31.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-32.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-33.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-34.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-35.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-36.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-37.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-38.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-39.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-40.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-41.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-42.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-43.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-44.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-45.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-46.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-47.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-48.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-49.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-50.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-51.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-52.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-53.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-54.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-55.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-56.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-57.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-58.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-59.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-60.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-61.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-62.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-63.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-64.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-65.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-66.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-67.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-68.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-69.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-70.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-71.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-72.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-73.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-74.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-75.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-76.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-77.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-78.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-79.jpg" alt="Photo from Jim and Kim" loading="lazy">
+          <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jim-and-kim/photo-80.jpg" alt="Photo from Jim and Kim" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sherrie -->
+  <div class="cluster cluster-even" id="sherrie">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Sherrie</div>
+        <p class="entry-text">Bob,</p>
+        <p class="entry-text">It is hard to believe that you are turning 70. My memories of you as a little boy are so vivid. You were Karen&#x27;s and my little toy. We&#x27;d play choo choo around the house with a cloth diaper and you would hold onto it as we ran around the house saying choo choo. You were always smiling and laughing. I remember when you came home after getting your stomach pumped because you managed to use an oven rack to pull the box of rat poisoning out from under the oven. You came home smiling while sucking on a lollipop. You were always so good natured. I wonder if your experiences in the emergency room as a kid lit the spark that ultimately led you to become a doctor.</p>
+        <p class="entry-text">As we grew up with almost six years between us, I felt the age difference and we weren&#x27;t close. Now I sometimes feel badly that I really didn&#x27;t get to know you then. On the other hand, now I sometimes feel that you are the &quot;elder&quot; of the family and that I can depend on you for your honesty, your incredible medical knowledge, your perceptive questions and your lack of judgement. I feel so lucky to have a brother like you who is easy to work with, generous, kind, silly, adventurous, and cares about being part of our family.</p>
+        <p class="entry-text">I&#x27;ve included a photo that I found that you may not have. It is of Karen, grandma Julia, aunt Edith, Mom and Aunt Claribel and me. I&#x27;m not sure how old you were. I&#x27;ve also included a photo of our Family Tree that mom put together for me that I thought you may like.</p>
+        <p class="entry-text">Wishing you many more adventures and incredible experiences as you step into your 70&#x27;s. I&#x27;ll be thinking about you on your birthday feeling like I am so lucky to have a brother like you. Thank you for always being there. I&#x27;ll also be thinking about how lucky we were to have the parents we did who made us into the people we are. I recently found the letter that Karen, you and I wrote to mom and dad on their 50th anniversary. The following is a quote from it:</p>
+        <p class="entry-text">&quot;We&#x27;re who we are because of who you are: your stability, strength and how you loved us. You taught us to always be honest, self-reliant, fair and productive.&quot;</p>
+        <p class="entry-text">I think we have passed the same traits on to our children. HAPPY BIRTHDAY!!!!</p>
+        <p class="entry-text">Love,<br>
+Sherrie</p>
+      </div>
+    </div>
+    <div class="entry entry-photo-pair">
+      <div class="entry-dot hide"></div>
+      <div class="entry-body">
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/sherrie/embedded-photo-1.jpg" alt="Photo from Sherrie" loading="lazy"></div>
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/sherrie/embedded-photo-2.jpg" alt="Photo from Sherrie" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hap and Sandy -->
+  <div class="cluster cluster-odd" id="hap-and-sandy">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Hap and Sandy</div>
+        <p class="entry-text">A music video dedication from Hap and Sandy.</p>
+      </div>
+    </div>
+    <div class="entry entry-video">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="video-label">From Hap and Sandy</div>
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/sVfp--syPX8" allowfullscreen></iframe>
+        </div>
+        <p class="video-caption">Coming Down (with Peter Gabriel &quot;Down to Earth&quot;)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dennis Pocekay -->
+  <div class="cluster cluster-even" id="dennis-pocekay">
+    <div class="entry entry-poem">
+      <div class="entry-dot sage"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Dennis Pocekay</div>
+        <p class="poem-intro">Hi Bob-
+
+First, I must attach the poem I think I wrote on your 50th Bday celebration, in the Grand Canyon on the Colorado River! I do still consider it my best ever such effort, though I have never listed poet as a skill I have!!</p>
+        <p class="poem-lines">Who would have thought?
+Sitting in a muddy puddle
+At the bottom of a deep hole
+With daily failed escapes
+Could be so magnificent!!</p>
+        <p class="poem-outro">What else??
+I&#x27;m very happy that we have remained friends for so long that it seems unnecessary to try to total the years!
+Always respected your gentle efforts to not quite &quot;blend in&quot; with the crowd, but without disrespecting others.
+Your kindness with patients which, along with Donna&#x27;s, always made me as Chief appear to be better than I was!
+And our hikes, where I always learned something as you challenged me to reconsider some position, again kindly and gently.
+Thanks for being a great friend, regardless of how late I was or am at asking for another hike!!!,
+
+Hope your 70th is a prelude to many more,
+
+Most sincerely, I love you!
+Dennis</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dave and Caroline -->
+  <div class="cluster cluster-odd" id="dave-and-caroline">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Dave and Caroline</div>
+        <p class="entry-text">Ode to Bob Fried</p>
+        <p class="entry-text">Generally, on a Big occasion, like turning 70, it is customary to roast someone. The problem with Bob is he doesn&#x27;t give us enough Ammo! Jeez, he is kind, multi-talented, smart, funny and the list goes on....</p>
+        <p class="entry-text">He has a lot to be conceited about, but he is too gosh darn humble! The closest he gets to swearing is to yell &#x27;Oh Bobby!!&#x27; on one of his rare misses playing tennis.</p>
+        <p class="entry-text">I mean, come on, he doesn&#x27;t even say the Lords name in vain, only his own!</p>
+        <p class="entry-text">The best measure of our friendship? Given the choice, Bob Fried is who I want to be on the doubles court with, along with Bob Landman and Brad Duncan!</p>
+        <p class="entry-text">Cheers Bob, Happy 70th, we love you!<br>
+Dave and Caro</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tina, Matt, Maddie and Sam -->
+  <div class="cluster cluster-even" id="tina-matt-maddie-and-sam">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Tina, Matt, Maddie and Sam</div>
+        <p class="entry-text">Sam and Matthew recalled a recent funny moment...we were talking about aunts and uncles...</p>
+        <p class="entry-text">Sam: &quot;I have 3 uncles.&quot;<br>
+Us: &quot;No, you have 2.&quot;<br>
+Sam: &quot;No, 3. Uncle Stevie, Uncle Marty, and Uncle Bob.&quot;<br>
+Us: &quot;Bob is your great-uncle.&quot;<br>
+Sam: &quot;My life is a lie...but Bob is great!&quot;</p>
+        <p class="entry-text">Maddie: One of my happiest childhood memories was when Pam and Bob came to my preschool to play music, and my friends thought it was cool that my uncle played the guitar. I also love watching the videos of me as a toddler at their house dancing to Bob playing the guitar and singing.</p>
+        <p class="entry-text">Tina: I feel like one of the luckiest humans in the world having your family in my life. Thank you for hooking up with my aunt and providing me with cousins that have always felt a little more like younger siblings. They are truly incredible humans. Nice work :)</p>
+        <p class="entry-text">You are incredibly kind and caring, with an amazing heart and a gift for being a total goofball! I appreciate your conversation, your jokes (the funny and the awful), and of course, your doctorly advice...now tell me, how many bones in the human body? ;)</p>
+        <p class="entry-text">We hope you have the happiest of birthdays...play &quot;Wagon Wheel&quot; for us...every time we hear that song, we think of you.</p>
+        <p class="entry-text">Love you Bob!</p>
+      </div>
+    </div>
+    <div class="entry entry-photo-pair">
+      <div class="entry-dot hide"></div>
+      <div class="entry-body">
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/tina-matt-maddie-sam/embedded-photo-1.png" alt="Photo from Tina, Matt, Maddie and Sam" loading="lazy"></div>
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/tina-matt-maddie-sam/embedded-photo-2.png" alt="Photo from Tina, Matt, Maddie and Sam" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Joe Magee -->
+  <div class="cluster cluster-odd" id="joe-magee">
+    <div class="entry entry-poem">
+      <div class="entry-dot sage"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Joe Magee</div>
+        <p class="poem-lines">2 am during a night on call
+Telling jokes and feeling blue
+While patients we put on ventilators
+Share our fading youth too
+
+A friend indeed
+In the time of stress
+Full of dread and caring for those
+So close to death
+
+How did we survive those
+Months of Hell?
+Side by side
+With comic relief in Echoing Stairwells.
+
+Did we ever think Our Youth would end
+With rivers wild and sails unfurled?
+Our tears, our youth
+With feelings so deep and rife
+
+Gratefully Spoiled
+Immersed in shadows of the meaning of life
+
+Having lived-well our lives
+and new frontiers found
+Seeing blue skies, while
+Floating River Rapids down.
+
+It is by some sublime bond, that we still feel bound.
+
+Joe</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mark, Yvette, and Isaiah Chass -->
+  <div class="cluster cluster-even" id="mark-yvette-and-isaiah-chass">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Mark, Yvette, and Isaiah Chass</div>
+        <p class="entry-text">Happy 70th birthday, Bob!</p>
+        <p class="entry-text">You make the neighborhood brighter with your smile, kindness, and friendly spirit. Whether you&#x27;re out walking the dog, riding your bike, hiking a trail, or strumming your guitar, your energy and love for the outdoors, inspire everyone around you. Wishing you a wonderful decade, filled with music, sunshine, adventures, and many more miles on the trail!</p>
+        <p class="entry-text">Lovingly,<br>
+Mark Yvette and Isaiah Chass<br>
+With a Bow Wow from Chloe</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Glenn Minervini-Zick -->
+  <div class="cluster cluster-odd" id="glenn-minervini-zick">
+    <div class="entry entry-poem">
+      <div class="entry-dot sage"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Glenn Minervini-Zick</div>
+        <p class="poem-lines">Family and soul
+Have always shaped your journey.
+Today just the same.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Andy and Betsy -->
+  <div class="cluster cluster-even" id="andy-and-betsy">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Andy and Betsy</div>
+        <p class="entry-text">All of the stories I have about Bob…at least the stories I have that I will share, involve Bob the musician and Bob the hero!</p>
+        <p class="entry-text">Betsy and I have been lucky enough to travel many times with Bob and almost always he has brought his guitar. Music is always welcome, especially when it is loud enough to cover up our singing! But, alas, we tend to really belt it out when he plays Wagonwheel!</p>
+        <p class="entry-text">Once when in the Caribbean sailing, we took an afternoon off to tour the island of Nevis. Upon returning to the boat, I took the helm and promptly stated steering for the rocky shore. Then Landman started yelling at me and grabbed the wheel when he realized we had lost our steering!! Yikes!! The rocks crept closer until Bob Fried remembered we had an emergency tiller, which he promptly retrieved, fitted into the mechanism and guided us away from the rocks.</p>
+        <p class="entry-text">Another time, again sailing, again in the Caribbean, one of the crew fouled a line and had it not been for Bob Fried remembering an obscure knot, the Rolling Hitch, we would have been in quite the pickle.</p>
+        <p class="entry-text">It seems that Bob F pays attention to the safety walkthrus and knot lectures!!</p>
+        <p class="entry-text">I do remember a couple of nights in the BVIs when we were taking a couple of sailing courses. Three of us shared a room with two king beds. Andy won the toss and got a bed to himself while the two Bobs slept in the other bed. Rumor has it that one of the two Bobs snores.</p>
+        <p class="entry-text">When we think of Bob Fried, we always focus on what a sweet, caring person he is. We are lucky he is in our life!</p>
+        <p class="entry-text">Andy and Betsy</p>
+      </div>
+    </div>
+    <div class="entry entry-photo-pair">
+      <div class="entry-dot hide"></div>
+      <div class="entry-body">
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/andy-and-betsy/photo-1.jpeg" alt="Photo from Andy and Betsy" loading="lazy"></div>
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/andy-and-betsy/embedded-photo-1.jpg" alt="Photo from Andy and Betsy" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dave Bannister -->
+  <div class="cluster cluster-odd" id="dave-bannister">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Dave Bannister</div>
+        <p class="entry-text">In mulling this over (aside from the many times he bested me on the tennis court) is the trips we took.</p>
+        <p class="entry-text">The one that he organized where we hiked up from the Eastern slope of the Sierras while pack mules took our camping gear up to a beautiful mountain lake. Not sure the name of that lake…I had Indigo in a backpack and if I remember correctly, you both were walking? Anyway, it was a memorable trip, and I doubt that it would have come together if Bob hadn&#x27;t organized it. I had never heard of such a thing being a new guy to CA from Kansas!</p>
+        <p class="entry-text">Then there is the Grand Canyon rafting trip. I think the two Bobs organized this one and what an astounding trip it was! The most beautiful scenery in the world while seeing it both on foot and from the boats that occasionally included adrenalin thrills of the white water.</p>
+        <p class="entry-text">It was great spending time on the trails and around the campfire with your father. His quick wit and unmistakable laugh were great accompaniments to the natural beauty!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bert -->
+  <div class="cluster cluster-even" id="bert">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Bert</div>
+        <p class="entry-text">March 10, 2026</p>
+        <p class="entry-text">Dear Bob,</p>
+        <p class="entry-text">You are a true mensch, and I count myself lucky to call you a friend. There are so many things about you that are quirky, unique, and deeply inspiring.</p>
+        <p class="entry-text">You&#x27;ve managed to balance being an accomplished physician with a genuine devotion to your wife and family. Whether you&#x27;re asking the kind of &quot;really good questions&quot; that get to the heart of a matter, pitching in at group gatherings, or simply looking out for the welfare of others, your desire to do good in the world is always evident.</p>
+        <p class="entry-text">Then there is the &quot;Bob&quot; of many talents: the tennis player who once shared the court with Kareem; the craftsman who built an amazing shop out of a fascination for making things; and the &quot;fashion maven&quot; with a legendary jacket collection. I&#x27;ve always admired your willingness to dive into things - from being bold with your Spanish to playing music (and letting me sing along, shamelessly off-key). You stay in great shape, you meditate (and are open about the journey), and you actually use your travel van for its intended purpose! What&#x27;s not to like?</p>
+        <p class="entry-text">When I think about our time together, &quot;adventure&quot; is the first word that comes to mind. From the meaningful work on a water project in the highlands of Nicaragua, to the grit of canyoneering in Sonoma, to swimming after Pam as she chased cuttlefish in Raja Ampat—there is no one else I&#x27;d rather have by my side.</p>
+        <p class="entry-text">Happy 70th, buddy. Here&#x27;s to many more adventures.</p>
+        <p class="entry-text">Your pal,<br>
+Bert</p>
+      </div>
+    </div>
+    <div class="entry entry-photo-pair">
+      <div class="entry-dot hide"></div>
+      <div class="entry-body">
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/bert/photo-3.jpeg" alt="Photo from Bert" loading="lazy"></div>
+        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/bert/photo-1.jpeg" alt="Photo from Bert" loading="lazy"></div>
+      </div>
+    </div>
+    <div class="entry entry-photo">
+      <div class="entry-dot hide"></div>
+      <div class="entry-body">
+        
+        <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/bert/photo-2.jpeg" alt="Photo from Bert" loading="lazy">
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Jim -->
+  <div class="cluster cluster-odd" id="jim">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Jim</div>
+        <p class="entry-text">To Bob on the occasion of his 70th birthday</p>
+        <p class="entry-text">My dear friend Bob –</p>
+        <p class="entry-text">You&#x27;ve been a constant presence in my life. Such a gift to have a friendship with you spanning nearly four decades (our 40th meeting anniversary is coming up next year!)</p>
+        <p class="entry-text">When I think about you, so many adjectives come to mind. In no particular order:</p>
+        <p class="entry-text">Curious: You explore so many topics, making conversations an expanding experience when you share what you are learning and thinking about. Also curious about people – whether about what&#x27;s going on in the lives of those close to you or people you are meeting for the first time.</p>
+        <p class="entry-text">Connecting: I love our conversations where we go deep so quickly – such rewarding and meaningful moments. No pretense, no walls – just being ourselves.</p>
+        <p class="entry-text">Gregarious: You have a knack for connecting with all sorts of people, finding common ground, drawing out their life experiences. You are in the moment, present, enthusiastic, excited when making a connection. This is one of the things that makes it great to travel with you – you connect so easily with strangers and that enriches the experience.</p>
+        <p class="entry-text">Generous: You are so ready to share your time and knowledge to help out friends and family. You are so there for your people. It&#x27;s inspired me, helped me look at myself to see how I can be better at this. What you&#x27;ve done for your parents, for Karen, for Pam&#x27;s family with the land resolution, and so much more. How you&#x27;ve cared for your community and offered support to people in difficult circumstances.</p>
+        <p class="entry-text">Searching: You have never stopped seeking deeper understanding of yourself, of how you fit into the cosmos – I love hearing about your musings and insights whether spiritual, scientific, personal. Gets me to ask the questions.</p>
+        <p class="entry-text">Playful: I love how we can go to silly and goofy places – just stop being tooooo serious. Not sure I can find words to describe those accents.</p>
+        <p class="entry-text">Adventurous: Ready to explore and push the limits and learn new skills – sailing, canyoneering, pursuing the High Route – you&#x27;re all in.</p>
+        <p class="entry-text">Nurturing and loving: Boy, do you have a big heart! I love basking in the warmth of your friendship, as do so many.</p>
+        <p class="entry-text">Creative: I love listening to you play the guitar, see what you&#x27;ve been up to with the welding and metal work.</p>
+        <p class="entry-text">And so many great memories of times with you – and not just any times but some of the best ones.</p>
+        <p class="entry-text">Our 40 year exploration of the Sierras, starting with the hike on the JMT in medical school where you introduced me to this magical range of light. The trip had everything from crisp and beautiful days with the granite gleaming in the unique crystalline Sierra light to the snow and cold that taught me that the mountains are always unpredictable and indifferent. And since then, so many other trips on the High Route, Mitre Basin, with the kids. Those High Route trips – wondering how we are going to get from here to there, but knowing that with you, we will do it. Looking at the wilderness before us and somehow finding a way forward together – and helping each other find ways forward in other realms as our lives have unfolded. Knowing that we are there to catch each other if we fall. Sitting together, in silence, absorbing the grandeur, the deep time of the mountains.</p>
+        <p class="entry-text">And then there are the Winds – great explorations. Being stuck in that storm in the weird single wall tent as the snow came down and the wind howled and we bailed out.</p>
+        <p class="entry-text">And the hikes in the Cascades – The Alpine Lakes High Route with great views, nasty leg cramps, granite basins holding sky blue lakes framed with the walls of Overcoat, Chimney and Summit Chief.</p>
+        <p class="entry-text">And Utah – exploring so many canyons over the years, sometimes the two of us, sometimes the four of us. Tracking the kivas of the ancient ones, being enveloped in soaring walls, shimmying through slot canyons, wading through pools tucked deep in canyon depths, hiking the open mesas, floating down the Green and Colorado.</p>
+        <p class="entry-text">And the Dolomites – getting to share these dramatic, moody mountains with you, Pam and Kim, sunny days seeing forever, misty days shrouding the peaks and hiding the basins.</p>
+        <p class="entry-text">And our trips together to Iceland (wading through icy streams to get to the impossibly verdant slope of Hornstrandir, tracking down puffins, not letting a little Covid get in the way) and Morocco (the huge waves of golden and ochre sand frozen in the moment as we clambered up their sides, deep and stark canyons, towns with crazy towers and walls of mud and sand).</p>
+        <p class="entry-text">Looking forward to many more adventures and quieter times both!</p>
+        <p class="entry-text">I am so glad to have you in my life.</p>
+        <p class="entry-text">Love,<br>
+Jim</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wendy and Michael -->
+  <div class="cluster cluster-even" id="wendy-and-michael">
+    <div class="entry entry-note">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Wendy and Michael</div>
+        <p class="entry-text">HAPPY BIRTHDAY BOB!</p>
+        <p class="entry-text">What a joy to know you. Your curiosity about the world inspires us. Your adventurous spirit encourages us to explore farther and climb higher. Your compassion and care for your friends and family warms our hearts. Your humor makes us laugh and your music compels us to sing (some of the time).</p>
+        <p class="entry-text">We are so grateful to be in your orbit.</p>
+        <p class="entry-text">With love, from Wendy and Michael</p>
+      </div>
+    </div>
+    <div class="entry entry-photo">
+      <div class="entry-dot hide"></div>
+      <div class="entry-body">
+        
+        <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/wendy-and-michael/photo-1.jpg" alt="Photo from Wendy and Michael" loading="lazy">
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Paul -->
+  <div class="cluster cluster-odd" id="paul">
+    <div class="entry entry-poem">
+      <div class="entry-dot sage"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Paul</div>
+        <p class="poem-lines">Turning To 70
+
+Days pass like steps
+on a mountain path:
+We take them, they take us.
+The landscape widens
+into the big and small,
+the journeys and strolls,
+your pace the metronome
+that sets your body&#x27;s melody.
+
+* * * * * * * * * * * * * * *
+
+I awake to a pale green light
+as chords announce a tune.
+I must be in your mountains,
+on the brisk edge of cold
+15,000 steps high, awaiting
+the warm yellow wave of morning.
+Your generosity brought me here—
+as my eyes swept from dusted steps
+to green pines, then the shattering blue.
+When I slapped my face
+into the granite&#x27;s burr,
+you washed the wound
+and butterflied the edges
+into a thin red memory of risk and joy.
+
+* * * * * * * * * * * * * * * *
+
+Small bright lines, big moments,
+a day&#x27;s song:
+We&#x27;ve sketched our lives along this path,
+across this wash of space.
+And blessed the earth,
+the sparkling pebbles, the piney cones,
+and the blue white life
+that streams from rock to pool,
+cup to throat, and day to night.
+
+Happy Birthday, Bob
+Love, Paul</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Judy -->
+  <div class="cluster cluster-even" id="judy">
+    <div class="entry entry-photo">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Judy</div>
+        <iframe src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/judy/birthday-card.pdf" style="width:100%;height:500px;border:1px solid var(--linen-dark);border-radius:2px;" loading="lazy"></iframe>
+        <p class="photo-caption">70 years of giving and receiving love! Love, Judy</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Hubers -->
+  <div class="cluster cluster-odd" id="the-hubers">
+    <div class="entry entry-photo">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From The Hubers</div>
+        <iframe src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/the-hubers/birthday-card.pdf" style="width:100%;height:500px;border:1px solid var(--linen-dark);border-radius:2px;" loading="lazy"></iframe>
+        <p class="photo-caption">Birthday card from the Hubers</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Joe and Kathy -->
+  <div class="cluster cluster-even" id="joe-and-kathy">
+    <div class="entry entry-photo">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Joe and Kathy</div>
+        <iframe src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/joe-and-kathy/birthday-card.pdf" style="width:100%;height:500px;border:1px solid var(--linen-dark);border-radius:2px;" loading="lazy"></iframe>
+        <p class="photo-caption">Happy 70th Birthday Bob! From Joe and Kathy</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sarah -->
+  <div class="cluster cluster-odd" id="sarah">
+    <div class="entry entry-audio">
+      <div class="entry-dot sage"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Sarah</div>
+        <p class="photo-caption" style="margin-bottom:0.5rem;">Voice message for Bob from Sarah</p>
+        <audio controls preload="metadata" src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/sarah/message-for-bob.m4a"></audio>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dan and China -->
+  <div class="cluster cluster-even" id="dan-and-china">
+    <div class="entry entry-audio">
+      <div class="entry-dot sage"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Dan and China</div>
+        <p class="photo-caption" style="margin-bottom:0.5rem;">Wagon Wheel - performed by Dan and China</p>
+        <audio controls preload="metadata" src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/dan-and-china/wagon-wheel.m4a"></audio>
+      </div>
+    </div>
+  </div>
+
+  <!-- Josh -->
+  <div class="cluster cluster-odd" id="josh">
+    <div class="entry entry-video">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="video-label">From Josh</div>
+        <video controls preload="metadata" style="width:100%;border-radius:2px;border:1px solid var(--linen-dark);">
+          <source src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/josh/hey-bob.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Hey Bob!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jerry -->
+  <div class="cluster cluster-even" id="jerry">
+    <div class="entry entry-video">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="video-label">From Jerry</div>
+        <video controls preload="metadata" style="width:100%;border-radius:2px;border:1px solid var(--linen-dark);">
+          <source src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/jerry/img-0413.mov" type="video/mp4">
+        </video>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Alan -->
+  <div class="cluster cluster-odd" id="alan">
+    <div class="entry entry-video">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="video-label">From Alan</div>
+        <video controls preload="metadata" style="width:100%;border-radius:2px;border:1px solid var(--linen-dark);">
+          <source src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/alan/img-1184.mov" type="video/mp4">
+        </video>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Sheila and Scott -->
+  <div class="cluster cluster-even" id="sheila-and-scott">
+    <div class="entry entry-photo">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Sheila and Scott</div>
+        <iframe src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/sheila-and-scott/birthday-card.pdf" style="width:100%;height:500px;border:1px solid var(--linen-dark);border-radius:2px;" loading="lazy"></iframe>
+        <p class="photo-caption">Birthday card from Sheila and Scott</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Peggy and Jane -->
+  <div class="cluster cluster-odd" id="peggy-and-jane">
+    <div class="entry entry-photo">
+      <div class="entry-dot hide"></div>
+      <div class="entry-body">
+        <div class="entry-from">From Peggy and Jane</div>
+        <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/peggy-and-jane/scanned-photo.jpeg" alt="Photo from Peggy and Jane" loading="lazy">
+        <p class="photo-caption">Scanned photo</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bob and Helene -->
+  <div class="cluster cluster-even" id="bob-and-helene">
+    <div class="entry entry-video">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="video-label">From Bob and Helene</div>
+        <video controls preload="metadata" style="width:100%;border-radius:2px;border:1px solid var(--linen-dark);">
+          <source src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/bob-and-helene/fried-70th-bday-dinner.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Fried 70th birthday dinner</p>
+      </div>
+    </div>
+    <div class="entry entry-video">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="video-label">From Bob and Helene</div>
+        <video controls preload="metadata" style="width:100%;border-radius:2px;border:1px solid var(--linen-dark);">
+          <source src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/bob-and-helene/2013-gorillas-fried-n-claude.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">2013 gorillas - Fried and Claude</p>
+      </div>
+    </div>
+    <div class="entry entry-video">
+      <div class="entry-dot"></div>
+      <div class="entry-body">
+        <div class="video-label">From Bob and Helene</div>
+        <video controls preload="metadata" style="width:100%;border-radius:2px;border:1px solid var(--linen-dark);">
+          <source src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/bob-and-helene/img-2166.mov" type="video/mp4">
+        </video>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing entry">
+    <div class="entry-dot hide"></div>
+    <blockquote>&ldquo;We&rsquo;re who we are because of who you are: your stability, strength and how you loved us. You taught us to always be honest, self-reliant, fair and productive.&rdquo;</blockquote>
+    <cite>&mdash; Letter to Bob&rsquo;s parents, written together by Karen, Bob &amp; Sherrie</cite>
+  </div>
+
+</div>
+
+<footer>
+  <p>Here&rsquo;s to seventy years &mdash; and to all the ones still to come.</p>
+  <p class="footer-small">Made with love &nbsp;&#183;&nbsp; Happy Birthday, Bob</p>
+</footer>
+
+<!-- Lightbox for photo grids -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close">&times;</span>
+  <img src="" alt="Full size photo">
+</div>
+
+<script>
+  // Scroll-triggered fade-in
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.entry').forEach(el => obs.observe(el));
+
+  // Lightbox for photo grids
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.photo-grid img').forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('active');
+    });
+  });
+  lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') lightbox.classList.remove('active'); });
+</script>
+</body>
+</html>
