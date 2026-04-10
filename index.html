@@ -43,7 +43,7 @@
   .toc-link:hover { background: var(--rose-pale); color: var(--ink); }
 
   /* TIMELINE */
-  .timeline { max-width: 760px; margin: 0 auto; padding: 3rem 2rem 5rem; position: relative; }
+  .timeline { max-width: 960px; margin: 0 auto; padding: 3rem 2rem 5rem; position: relative; }
   .timeline::before { content:''; position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--rose-light); transform:translateX(-50%); }
 
   /* CLUSTER */
@@ -57,8 +57,8 @@
   .entry-dot.hide { display: none; }
 
   /* NOTE */
-  .cluster-odd .entry-note .entry-body  { margin-left: 0; margin-right: calc(50% + 2rem); text-align: right; }
-  .cluster-even .entry-note .entry-body { margin-left: calc(50% + 2rem); margin-right: 0; text-align: left; }
+  .cluster-odd .entry-note .entry-body  { margin-left: 0; margin-right: calc(50% + 1.25rem); text-align: right; }
+  .cluster-even .entry-note .entry-body { margin-left: calc(50% + 1.25rem); margin-right: 0; text-align: left; }
   .entry-body { padding: 1.5rem 1.75rem; background: var(--cream); border: 1px solid var(--rose-pale); border-radius: 2px; }
   .entry-from { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.65rem; }
   .entry-text { font-size: 0.97rem; color: var(--ink); line-height: 1.8; }
@@ -66,16 +66,16 @@
 
   /* POEM */
   .entry-poem .entry-body { background: var(--sage-pale); border-color: var(--sage-light); }
-  .cluster-odd .entry-poem .entry-body  { margin-left: 0; margin-right: calc(50% + 2rem); text-align: left; }
-  .cluster-even .entry-poem .entry-body { margin-left: calc(50% + 2rem); margin-right: 0; text-align: left; }
+  .cluster-odd .entry-poem .entry-body  { margin-left: 0; margin-right: calc(50% + 1.25rem); text-align: left; }
+  .cluster-even .entry-poem .entry-body { margin-left: calc(50% + 1.25rem); margin-right: 0; text-align: left; }
   .entry-poem .entry-from { color: var(--sage); }
   .entry-poem .poem-lines { font-style: italic; white-space: pre-line; font-size: 0.97rem; line-height: 1.9; color: var(--ink); }
   .entry-poem .poem-intro { font-size: 0.95rem; color: var(--ink-mid); margin-bottom: 1rem; font-style: normal; }
   .entry-poem .poem-outro { font-size: 0.95rem; color: var(--ink-mid); margin-top: 1rem; font-style: normal; }
 
   /* PHOTO */
-  .cluster-odd .entry-photo .entry-body  { margin-left: 0; margin-right: calc(50% + 2rem); padding: 0; background: none; border: none; }
-  .cluster-even .entry-photo .entry-body { margin-left: calc(50% + 2rem); margin-right: 0; padding: 0; background: none; border: none; }
+  .cluster-odd .entry-photo .entry-body  { margin-left: 0; margin-right: calc(50% + 1.25rem); padding: 0; background: none; border: none; }
+  .cluster-even .entry-photo .entry-body { margin-left: calc(50% + 1.25rem); margin-right: 0; padding: 0; background: none; border: none; }
   .entry-photo img { width: 100%; display: block; border-radius: 2px; border: 1px solid var(--linen-dark); }
   .photo-caption { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.72rem; color: var(--ink-light); margin-top: 0.4rem; letter-spacing: 0.04em; }
 
@@ -91,16 +91,16 @@
   .photo-grid img:hover { transform: scale(1.03); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
 
   /* VIDEO */
-  .cluster-odd .entry-video .entry-body  { margin-left: 0; margin-right: calc(50% + 2rem); padding: 0; background: none; border: none; }
-  .cluster-even .entry-video .entry-body { margin-left: calc(50% + 2rem); margin-right: 0; padding: 0; background: none; border: none; }
+  .cluster-odd .entry-video .entry-body  { margin-left: 0; margin-right: calc(50% + 1.25rem); padding: 0; background: none; border: none; }
+  .cluster-even .entry-video .entry-body { margin-left: calc(50% + 1.25rem); margin-right: 0; padding: 0; background: none; border: none; }
   .video-label { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.65rem; }
   .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 2px; overflow: hidden; border: 1px solid var(--linen-dark); background: var(--ink); }
   .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
   .video-caption { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.72rem; color: var(--ink-light); margin-top: 0.4rem; font-style: italic; }
 
   /* AUDIO */
-  .cluster-odd .entry-audio .entry-body  { margin-left: 0; margin-right: calc(50% + 2rem); background: var(--sage-pale); border-color: var(--sage-light); }
-  .cluster-even .entry-audio .entry-body { margin-left: calc(50% + 2rem); margin-right: 0; background: var(--sage-pale); border-color: var(--sage-light); }
+  .cluster-odd .entry-audio .entry-body  { margin-left: 0; margin-right: calc(50% + 1.25rem); background: var(--sage-pale); border-color: var(--sage-light); }
+  .cluster-even .entry-audio .entry-body { margin-left: calc(50% + 1.25rem); margin-right: 0; background: var(--sage-pale); border-color: var(--sage-light); }
   .entry-audio .entry-from { color: var(--sage); }
   audio { width: 100%; height: 32px; margin-top: 0.4rem; accent-color: var(--sage); }
 
@@ -112,7 +112,8 @@
   .lightbox-close:hover { opacity: 1; }
 
   /* CLOSING */
-  .closing { text-align: center; padding: 3rem 0 2rem; position: relative; z-index: 1; }
+  .closing { text-align: center; padding: 3rem 2rem 2rem; position: relative; z-index: 1; }
+  .closing .closing-inner { background: var(--linen); padding: 2.5rem 2rem; border-radius: 4px; position: relative; }
   .closing blockquote { font-size: 1.05rem; font-style: italic; color: var(--ink-mid); max-width: 500px; margin: 0 auto; line-height: 1.85; }
   .closing cite { display: block; margin-top: 1rem; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); font-style: normal; }
 
@@ -425,14 +426,16 @@ Sherrie</p>
         <p class="entry-text">A music video dedication from Hap and Sandy.</p>
       </div>
     </div>
-    <div class="entry entry-video">
+    <div class="entry entry-note">
       <div class="entry-dot"></div>
       <div class="entry-body">
-        <div class="video-label">From Hap and Sandy</div>
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/sVfp--syPX8" allowfullscreen></iframe>
-        </div>
-        <p class="video-caption">Coming Down (with Peter Gabriel &quot;Down to Earth&quot;)</p>
+        <div class="entry-from">From Hap and Sandy</div>
+        <p class="entry-text" style="margin-bottom:1rem;">A music video dedication:</p>
+        <a href="https://www.youtube.com/watch?v=sVfp--syPX8" target="_blank" rel="noopener" style="display:block;padding:1.25rem 1.5rem;background:var(--ink);color:white;border-radius:4px;text-decoration:none;text-align:center;transition:opacity 0.2s;">
+          <span style="font-size:2rem;display:block;margin-bottom:0.5rem;">&#9654;</span>
+          <span style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:0.85rem;letter-spacing:0.05em;">Watch on YouTube</span><br>
+          <span style="font-family:Georgia,serif;font-size:0.8rem;font-style:italic;opacity:0.7;">Coming Down (with Peter Gabriel &ldquo;Down to Earth&rdquo;)</span>
+        </a>
       </div>
     </div>
   </div>
@@ -596,11 +599,10 @@ Today just the same.</p>
         <p class="entry-text">Andy and Betsy</p>
       </div>
     </div>
-    <div class="entry entry-photo-pair">
+    <div class="entry entry-photo">
       <div class="entry-dot hide"></div>
       <div class="entry-body">
-        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/andy-and-betsy/photo-1.jpeg" alt="Photo from Andy and Betsy" loading="lazy"></div>
-        <div><img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/andy-and-betsy/embedded-photo-1.jpg" alt="Photo from Andy and Betsy" loading="lazy"></div>
+        <img src="https://pub-1d5c9fdcb2df488caa57749899e9e045.r2.dev/andy-and-betsy/photo-1.jpeg" alt="Photo from Andy and Betsy" loading="lazy">
       </div>
     </div>
   </div>
@@ -924,8 +926,10 @@ Love, Paul</p>
   <!-- CLOSING -->
   <div class="closing entry">
     <div class="entry-dot hide"></div>
-    <blockquote>&ldquo;We&rsquo;re who we are because of who you are: your stability, strength and how you loved us. You taught us to always be honest, self-reliant, fair and productive.&rdquo;</blockquote>
-    <cite>&mdash; Letter to Bob&rsquo;s parents, written together by Karen, Bob &amp; Sherrie</cite>
+    <div class="closing-inner">
+      <blockquote>&ldquo;We&rsquo;re who we are because of who you are: your stability, strength and how you loved us. You taught us to always be honest, self-reliant, fair and productive.&rdquo;</blockquote>
+      <cite>&mdash; Letter to Bob&rsquo;s parents, written together by Karen, Bob &amp; Sherrie</cite>
+    </div>
   </div>
 
 </div>
